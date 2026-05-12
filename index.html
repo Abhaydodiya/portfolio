@@ -580,7 +580,7 @@
       border-radius: var(--radius);
       background: var(--card);
       box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .hero-card-main {
@@ -2084,30 +2084,40 @@
       </div>
       <div class="reveal">
         <form class="contact-form" onsubmit="handleForm(event)">
+
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">First Name</label>
-              <input class="form-input" type="text" placeholder="John" required />
+              <input id="firstName" class="form-input" type="text" placeholder="John" required />
             </div>
+
             <div class="form-group">
               <label class="form-label">Last Name</label>
-              <input class="form-input" type="text" placeholder="Doe" />
+              <input id="lastName" class="form-input" type="text" placeholder="Doe" />
             </div>
           </div>
+
           <div class="form-group">
             <label class="form-label">Email Address</label>
-            <input class="form-input" type="email" placeholder="john@company.com" required />
+            <input id="email" class="form-input" type="email" placeholder="john@company.com" required />
           </div>
+
           <div class="form-group">
             <label class="form-label">Subject</label>
-            <input class="form-input" type="text" placeholder="Project discussion, job opportunity..." required />
+            <input id="subject" class="form-input" type="text" placeholder="Project discussion, job opportunity..."
+              required />
           </div>
+
           <div class="form-group">
             <label class="form-label">Message</label>
-            <textarea class="form-textarea" placeholder="Tell me about your project or opportunity..."
+            <textarea id="message" class="form-textarea" placeholder="Tell me about your project or opportunity..."
               required></textarea>
           </div>
-          <button type="submit" class="form-submit">Send Message →</button>
+
+          <button type="submit" class="form-submit">
+            Send Message →
+          </button>
+
         </form>
       </div>
     </div>
@@ -2210,12 +2220,58 @@
     });
 
     // ── CONTACT FORM ──
+    // function handleForm(e) {
+    //   e.preventDefault();
+    //   const btn = e.target.querySelector('.form-submit');
+    //   btn.textContent = '✓ Message Sent!';
+    //   btn.style.background = '#4caf50';
+    //   setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
+    // }
+    // ── CONTACT FORM ──
     function handleForm(e) {
       e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+
+      // Your WhatsApp number
+      const phoneNumber = "919999999999"; // replace with your number
+
+      // Generate WhatsApp message
+      const whatsappMessage =
+        `Hello Abhay,
+
+New inquiry from your portfolio website.
+
+Name: ${firstName} ${lastName}
+Email: ${email}
+Subject: ${subject}
+
+Message:
+${message}`;
+
+      // Encode message
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+
+      // Redirect to WhatsApp
+      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+      window.open(whatsappURL, '_blank');
+
+      // Optional success UI
       const btn = e.target.querySelector('.form-submit');
-      btn.textContent = '✓ Message Sent!';
+
+      btn.textContent = '✓ Redirecting...';
       btn.style.background = '#4caf50';
-      setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; e.target.reset(); }, 3000);
+
+      setTimeout(() => {
+        btn.textContent = 'Send Message →';
+        btn.style.background = '';
+        e.target.reset();
+      }, 3000);
     }
   </script>
 </body>
